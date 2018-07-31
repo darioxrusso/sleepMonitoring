@@ -1,0 +1,10 @@
+applications:
+- path: .
+  timeout: 600 
+  memory: 1500M
+  instances: 1
+  name: sleep
+  disk_quota: 1024M
+  buildpack: python_buildpack
+  routes: 
+  - route: sleep.mybluemix.net

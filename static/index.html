@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>ActivAge - Sleep Monitoring Service</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/stylesheets/style.css">
+  </head>
+
+  <body>
+  	<a href="http://www.activageproject.eu/">
+  		<img class="logo" src="/static/images/activage_logo.png" alt="ActivAge logo"
+  		 title="ActivAge logo">
+  	</a>
+     <div class="logo">
+  	Activating Innovative IoT Smart living environments for ageing well
+  </div> 	
+  <h1>ActivAge - Sleep Analysis Service</h1>
+	ACTIVAGE is a European Multi Centric Large Scale Pilot on 
+	Smart Living Environments. 
+	The main objective is to build the first European IoT ecosystem across 9 
+	Deployment Sites (DS) in seven European countries, reusing and scaling up 
+	underlying open and proprietary IoT platforms, technologies and standards,
+	and integrating new interfaces needed to provide interoperability across 
+	these heterogeneous platforms, that will enable the deployment and 
+	operation at large scale of Active &amp; Healthy Ageing IoT based 
+	solutions and services, supporting and extending the independent living of
+	older adults in their living environments, and responding to real needs of
+	caregivers, service providers and public authorities.
+	<h2>Sleep Analysis Service</h2>
+	<h3>Introduction</h3>
+	The algorithm is essentially composed by three levels of analysis, 
+	examining the data sent by sensors placed in the living user environment. 
+	Usually, a night sleep activity for the day begins the night before and, 
+	during the day, there could be other rests, for example, after lunch. For
+	this reason, the sleeping analysis for the day x begins the day x-1 at 
+	19:00 and finished the day x at 19:00. <br />
+    The algorithm works around these concepts:
+    <ul>
+     <li>start datetime and end datetime: they represents respectively the 
+     start and the end period of time of interest, expressed using the 
+     following format: YYY-MM-DD HH-MM-SS;</li>
+     <li>duration: how is log a period of time. In the algorithm it is used 
+     to measure the average of how many minutes a user sleeps in a day 
+     (considering night and eventually daily rests);</li>
+     <li>micro awakenings: they are short (e.g. lesser than 5 minutes) periods 
+     of time on which the user is not detected on the bed. This can be caused
+     by movements (turn around) on bed. In the algorithm it is used to count 
+     the number of such events;</li>
+     <li>awakenings: they are longer (e.g. lesser than 45 minutes) periods of 
+     time on which the user is not detected on the bed. This can be caused 
+     because he waked up and then he returned to bed. In the algorithm it is 
+     used to count the number of such events;</li>
+     <li>sleep: a sleep it a period of time (e.g. more than 2 hours) on which 
+     the user is detected on the bed;</li>
+     <li>change of habits: when in the duration or in the number of micro 
+     awakenings or in the number of micro and of the awakenings increases or 
+     decreases of a certain percentage (e.g. 10%) respect to the average.</li>
+    </ul>
+    <h3>How to use</h3>
+    Usage: &lt;command&gt; [/parameters]<br />
+    where:
+    <ul>
+     <li>command can be:
+      <ul>
+       <li>activity: shows bed times, durations, micro-awakenings and 
+           awakenings.<br />
+           Parameters are:
+        <ul>   
+         <li>start_date: the start date of the period of interest; </li>
+         <li>end_date: the end of the date of the period of interest; </li>
+        </ul>
+       </li>  
+       <li>average: shows the averages of bed times, micro-awakenings and 
+           awakenings for the period of interest; <br />
+           Parameters are:
+        <ul>
+         <li>start_date: the start date of the period of interest;</li>
+         <li>end_date: the end of the date of the period of interest; </li>
+        </ul>
+       </li>
+       <li>analyze: shows alerts obtained comparing durations, 
+           micro-awakenings and awakenings of the period of interest with the
+           average of a period. <br />
+           Parameters are:
+        <ul>
+         <li>start_date: the start date of the period of interest;</li>
+         <li>end_date: the end of the date of the period of interest; </li>
+         <li>average_start_date: the start date of the period to calculate the
+             average to compare; </li>
+         <li>average_end_date: the end of the date of the period to calculate 
+             the average to compare; </li>
+        </ul>
+       </li>
+       <li>cosine: calculates the cosine distance between the data of two 
+           periods of time. <br />
+          In particular, the function supports 3 different types of calculus:
+          <ul>
+          	<li> compares two days: takes the data (duration, micro-awakenings, 
+          		 awakenings) of the two days and calculates their distance;
+          		 In this case, two arguments are used:
+          		 <ul>
+          		  <li> day_1: the first day to compare;</li>
+          		  <li> day_2: the second day to compare;</li>
+          		 </ul>
+            </li>
+            <li> it compares a certain number of couples of days. 
+				 In this case, three arguments are used:
+          		 <ul>
+          		  <li> day_1: the starting date of the first set of days to 
+          		       compare (the first element of the couple);</li>
+          		  <li> day_2: the starting date of the second set of days to 
+          		       compare (the second element of the couple);</li>
+          		  <li> param_1: the number of consecutive days to take into
+          		       account.</li>
+          		 </ul>
+            </li>
+            <li> it compares the average data (duration, micro-awakenings, 
+          		 awakenings) of two periods of time.
+          		 <ul>
+          		  <li> day_1: the starting date of the first period of time;
+          		  </li>
+          		  <li> day_2: the ending date of the first period of time;
+          		  </li>
+          		  <li> param_1: the starting date of the second period of time;
+          		  </li>
+          		  <li> param_2: the ending date of the second period of time;
+          		  </li>          		  
+          		 </ul>
+            </li>            
+          </ul>        
+       </li>
+      </ul> 
+     <li>parameters are divided by the '/' char. Last parameter has no 
+         final '/';</li>  
+     <li>start_date, end_date, average_start_date, average_end_date are in 
+         'YYYY-MM-DD' format;</li>
+     <li>if start_date and / or average_start_date are omitted or specified 
+         as 'None', it is considered the first day of available data; </li>
+     <li>if end_date and / or average_end_date are omitted or specified as 
+         'None', it is considered the last day of available data.</li>
+    </ul>
+  
+  </body>
+
+</html>
